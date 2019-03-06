@@ -30,11 +30,11 @@ blog service
     <li class="list-group-item">
         <h5 class="display-5 font-weight-bold">{{blog.title}}</h5>
         {% if blog.state == 0 %}
-        <span class="badge badge-pill badge-warning">Warning</span>
+        <span class="badge badge-pill badge-warning">task</span>
         {% elif blog.state == 1 %}
-        <span class="badge badge-pill badge-primary">Primary</span>
+        <span class="badge badge-pill badge-primary">in progress</span>
         {% elif blog.state == 2 %}
-        <span class="badge badge-pill badge-success">Success</span>
+        <span class="badge badge-pill badge-success">finished</span>
         {% endif %}
         <br>
         {{blog.summary}}<a href="{% url 'detail' blog.id %}"> ...more</a>
