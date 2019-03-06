@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block title %}
+account service
+{% endblock %}
+
+{% block content %}
+<br>
+<h2>회원가입 page</h2>
+<div class="container">
+    <form action="{% url 'signup' %}" method="post">
+        {% csrf_token %}
+        <p>Username: </p>
+        <input type="text" name="username" value="">
+        <br>
+        <p>Password: </p>
+        <input type="password" name="password1" value="">
+        <br>
+        <p>Confirm Password: </p>
+        <input type="password" name="password2" value="">
+        <br>
+        <input class="btn btn-dark" type="submit" value="Sign up!">
+    </form>
+</div>
+{% endblock %}
