@@ -4,20 +4,28 @@ blog service
 {% endblock %}
 
 {% block content %}
-<br>
-<div class="container">
+<div class="card">
+  <div class="card-header">
+    <h4 class="display-4 font-weight-bold">To Do List</h4>
+  </div>
+  <ul class="list-group list-group-flush">
     {% for blog in posts %}
-       <div class="card">
-            <div class="card-body">
-                <h3 class="card-title">{{blog.title}}</h3>
-                <h6 class="card-subtitle mb-2 text-muted">{{blog.pub_date}}</h6>
-                <p class="card-text">{{blog.summary}} <a href="{% url 'detail' blog.id %}"> ...more</a></p>
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
-            </div>
-        </div>
+    <li class="list-group-item">
+        <h5 class="display-5 font-weight-bold">{{blog.title}}</h5>
         <br>
-    {% endfor %}
+        {{blog.summary}}<a href="{% url 'detail' blog.id %}"> ...more</a>
+        <br>
+        {{blog.pub_date}}
+        <ul class="nav justify-content-end">
+            <li class="nav-item">
+                <a class="nav-link active font-weight-bold" href="#">Doing</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link font-weight-bold" href="#">Done</a>
+            </li>
+        </ul>
+    </li>
+    {% endfor%}
 </div>
 <center>
 <div class="container">

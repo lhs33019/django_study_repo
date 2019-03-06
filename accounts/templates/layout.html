@@ -29,8 +29,8 @@
         </style>
     </head>
     <body>
-        <nav class="navbar navbar-dark bg-dark navbar-inner">
-            <a class="navbar-brand" href="{% url 'home' %}">This is my blog app</a>
+        <nav class="navbar navbar-light bg-dark navbar-inner">
+            <a class="navbar-brand mb-0 h1 text-white" href="{% url 'home' %}">To Do List</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -40,7 +40,7 @@
                         <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'new' %}">글쓰기</a>
+                        <a class="nav-link" href="{% url 'new' %}">할 일 추가하기</a>
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="/portfolio">Portfolio</a>
