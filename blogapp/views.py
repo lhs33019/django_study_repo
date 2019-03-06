@@ -11,16 +11,20 @@ import re
 
 def home(request):
     blogs = Blog.objects #쿼리셋
-
     blog_list = Blog.objects.all().order_by('pub_date').reverse()
 
+    totalCount = len(blog_list)
     paginator = Paginator(blog_list, 3)
 
-    page = request.GET.get('page')
+    count = {}
+    count['todo'] = Blog.objects.filter(state=0).count()
+    count['doing'] = Blog.objects.filter(state=1).count()
+    count['done'] = Blog.objects.filter(state=2).count()
 
+    page = request.GET.get('page')
     posts = paginator.get_page(page)
     
-    return render(request, 'home.html', {'blogs':blogs, 'posts':posts})
+    return render(request, 'home.html', {'blogs':blogs, 'posts':posts, 'count':count})
 
 def detail(request, blog_id):
     details = get_object_or_404(Blog, pk=blog_id)
@@ -79,4 +83,31 @@ def movieChart(request):
     post.save()
     return redirect('home')
 
+def makeTestPosts(request):
+    make = request.GET.get('make')
+    if (make == None):
+        make = 1
+    myfake = Faker()
+    for i in range(0,int(make)):
+        post = Blog()
+        post.title = myfake.name()
+        post.body = myfake.address()
+        post.pub_date = timezone.datetime.now()
+        post.save()
+    return redirect('home')
+
+def delete(request, blog_id):
+    if not request.user.is_authenticated:
+        return render(request, 'login.html')
+    post = get_object_or_404(Blog, pk=blog_id)
+    post.delete()
+    return redirect('home')
+
+def update(request, blog_id):
+    if not request.user.is_authenticated:
+        return render(request, 'login.html')
+    post = get_object_or_404(Blog, pk=blog_id)
+    post.state = int(request.POST.get('state'))
+    post.save()
+    return redirect('home')
     

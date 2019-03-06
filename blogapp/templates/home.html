@@ -6,50 +6,76 @@ blog service
 {% block content %}
 <div class="card">
   <div class="card-header">
-    <h4 class="display-4 font-weight-bold">To Do List</h4>
+    <h4 class="display-4 font-weight-bold">Dash Board</h4>
+    <ul class="nav justify-content-end ">
+        <li class="nav-item">
+            <button type="button" class="btn btn-warning">
+            TO DO <span class="badge badge-light">{{ count.todo }}</span>
+            </button>
+        </li>
+        <li class="nav-item">
+            <button type="button" class="btn btn-primary">
+            Doing <span class="badge badge-light">{{count.doing}}</span>
+            </button>
+        </li>
+        <li class="nav-item">
+            <button type="button" class="btn btn-success">
+            Done <span class="badge badge-light">{{count.done}}</span>
+            </button>
+        </li>
+    </ul>
   </div>
   <ul class="list-group list-group-flush">
     {% for blog in posts %}
     <li class="list-group-item">
         <h5 class="display-5 font-weight-bold">{{blog.title}}</h5>
+        {% if blog.state == 0 %}
+        <span class="badge badge-pill badge-warning">Warning</span>
+        {% elif blog.state == 1 %}
+        <span class="badge badge-pill badge-primary">Primary</span>
+        {% elif blog.state == 2 %}
+        <span class="badge badge-pill badge-success">Success</span>
+        {% endif %}
         <br>
         {{blog.summary}}<a href="{% url 'detail' blog.id %}"> ...more</a>
         <br>
         {{blog.pub_date}}
+        <br>
+        <a href="{% url 'delete' blog.id %}"><button>삭제</button></a>
         <ul class="nav justify-content-end">
-            <li class="nav-item">
-                <a class="nav-link active font-weight-bold" href="#">Doing</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link font-weight-bold" href="#">Done</a>
-            </li>
+            <form action="{% url 'update' blog.id %}" method="post">
+            {% csrf_token %}
+                <button name="state" type="submit" value="0" class="btn btn-outline-primary nav-link" style="display:inline;">TODO</button>
+                <button name="state" type="submit" value="1" class="btn btn-outline-primary nav-link" style="display:inline;">Doing</button>
+                <button name="state" type="submit" value="2" class="btn btn-outline-primary nav-link" style="display:inline;">Done</button>
+            </form>
         </ul>
     </li>
     {% endfor%}
 </div>
-<center>
 <div class="container">
-{#First Previous#}
-{% if posts.has_previous %}
-<a href="?page=1">First</a>
-<a href="?page={{posts.previous_page_number}}">Previous</a>
-{% else %}
-<span>First</span>
-<span>Previous</span>
-{% endif %}
+    <center>
+        {#First Previous#}
+        {% if posts.has_previous %}
+        <a href="?page=1">First</a>
+        <a href="?page={{posts.previous_page_number}}">Previous</a>
+        {% else %}
+        <span>First</span>
+        <span>Previous</span>
+        {% endif %}
 
-<span>{{posts.number}}</span>
-<span>of</span>
-<span>{{posts.paginator.num_pages}}</span>
+        <span>{{posts.number}}</span>
+        <span>of</span>
+        <span>{{posts.paginator.num_pages}}</span>
 
-{% if posts.has_next %}
-<a href="?page={{posts.next_page_number}}">Next</a>
-<a href="?page={{posts.paginator.num_pages}}">Last</a>
-{% else %}
-<span>Next</span>
-<span>Last</span>
-{% endif %}
-</center>
+        {% if posts.has_next %}
+        <a href="?page={{posts.next_page_number}}">Next</a>
+        <a href="?page={{posts.paginator.num_pages}}">Last</a>
+        {% else %}
+        <span>Next</span>
+        <span>Last</span>
+        {% endif %}
+    </center>
 </div>
 
 {% endblock %}
